@@ -1,0 +1,55 @@
+{
+    "Night":{
+        "telescope_name":"Nordic Optical Telescope",
+        "observer_lat":-17.884999999999998,
+        "observer_long":28.7569444,
+        "observer_elevation":2383,
+        "obs_start":"2023-08-07 22:00:00",
+        "obs_end":"2023-08-08 05:30:00",
+        "obs_windows":[
+            "2023-08-07 22:00:00",
+            "2023-08-08 00:30:00",
+            "2023-08-08 03:00:00"
+        ]
+    },
+    "Targets":[
+        "NGC6302",
+        "09:59:03.4 +33:28:39.1 2023lgy",
+        "Vega"
+    ],
+    "Config":{
+        "PDF":{
+            "theme":"light"
+        },
+        "all_sky_map":{
+            "do_stars":true,
+            "do_asterisms":true,
+            "do_constellations":false,
+            "do_moon":true,
+            "do_time_text":false,
+            "do_xticks":false,
+            "do_yticks":true,
+            "do_title":false,
+            "do_legend":false,
+            "do_target_colors":true,
+            "mag_limit":8.5,
+            "star_marker":"o",
+            "target_marker":"*",
+            "sky_culture":"rey"
+        },
+        "local_sky":{
+            "do_moon":false,
+            "do_grid":true
+        },
+        "airmass":{
+            "do_moon":true,
+            "do_moon_labels":true
+        },
+        "finder_images":{
+            "survey":"DSS",
+            "log":false,
+            "grid":false,
+            "reticle":true
+        }
+    }
+}

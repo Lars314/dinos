@@ -1,3 +1,5 @@
 # dinos
 Display Information Needed for Observing Stuff
-![](titlebackground.PNG "DINOS")
+![](./report_images/titlebackground_v2.PNG "DINOS")
+
+Documentation coming soon
