@@ -304,7 +304,7 @@ if __name__ == "__main__":
     this_date = night_data['obs_start'].split()[0]
     
     # read the template
-    with open('report_template.tex', 'r') as file:
+    with open('report_template', 'r') as file:
         file_data = file.read()
 
         # Searching and replacing the text
@@ -327,6 +327,6 @@ if __name__ == "__main__":
         file.write(file_data)
 
     # run report script
-    os.system("pdflatex -jobname {0} -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
+    os.system("pdflatex -jobname {1} -output-directory {0} --interaction=batchmode {1}.tex".format(args['output'], script_name))
     
     print("Done!")
