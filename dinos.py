@@ -222,14 +222,20 @@ if __name__ == "__main__":
         
         
         # get rise time
-        data['rise'] = dino_loc.target_rise_time(night_data['obs_start'],
-                                                 target['target'],
-                                                 which="nearest").iso.split()[1][:8]
+        try:
+            data['rise'] = dino_loc.target_rise_time(night_data['obs_start'],
+                                                     target['target'],
+                                                     which="nearest").iso.split()[1][:8]
+        except:
+            data['rise'] = "NA"
         
         # get set time
-        data['set'] = dino_loc.target_set_time(night_data['obs_start'],
-                                               target['target'],
-                                               which="nearest").iso.split()[1][:8]
+        try:
+            data['set'] = dino_loc.target_set_time(night_data['obs_start'],
+                                                   target['target'],
+                                                   which="nearest").iso.split()[1][:8]
+        except:
+            data['set'] = "NA"
         
         # get time of lowest airmass
         
@@ -321,6 +327,6 @@ if __name__ == "__main__":
         file.write(file_data)
 
     # run report script
-    os.system("pdflatex -jobname dinos_report -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
+    os.system("pdflatex -jobname {0} -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
     
     print("Done!")
