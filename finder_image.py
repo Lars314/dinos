@@ -4,7 +4,7 @@ import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astropy.wcs import WCS
 
-def plot(this_target, survey='DSS', fov_radius=15*u.arcmin,
+def plot(this_target, survey='DSS', fov_radius=3.2*u.arcmin,
          log=False, ax=None, grid=False, reticle=True,
          style_kwargs=None, reticle_style_kwargs=None,
          path="./report_plots"):

@@ -256,18 +256,22 @@ if __name__ == "__main__":
 
     # create all-sky map
     print("creating plots...")
+    print("all sky map")
     all_sky_map.plot(targets, path=args['output'], **config_data['all_sky_map'])
     
     # create local-sky map
+    print("local sky map")
     local_sky.plot(dino_loc, times, targets, path=args['output'],
                    **config_data['local_sky'])
     
     # create airmass plot
+    print("airmass")
     airmass.plot(dino_loc, times, targets, path=args['output'],
                  **config_data['airmass'])
     
     # create finder images
     for target in targets:
+        print("Finder image {0}".format(target['name']))
         finder_image.plot(target, path=args['output'],
                           **config_data['finder_images'])
 
@@ -304,7 +308,7 @@ if __name__ == "__main__":
     this_date = night_data['obs_start'].split()[0]
     
     # read the template
-    with open('report_template', 'r') as file:
+    with open('report_template.tex', 'r') as file:
         file_data = file.read()
 
         # Searching and replacing the text
@@ -327,6 +331,7 @@ if __name__ == "__main__":
         file.write(file_data)
 
     # run report script
-    os.system("pdflatex -jobname {1} -output-directory {0} --interaction=batchmode {1}.tex".format(args['output'], script_name))
+    #os.system("pdflatex -jobname dinos_report -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
+    os.system("pdflatex -jobname dinos_report -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
     
     print("Done!")

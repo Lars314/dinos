@@ -3,10 +3,14 @@ import astropy
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astropy.time import Time
-import matplotlib.pyplot as plt
+
 import pandas as pd
 from seaborn import desaturate
 import numpy as np
+
+import matplotlib
+matplotlib.use('agg') 
+import matplotlib.pyplot as plt
 import matplotlib.image as mpl_image
 from matplotlib.offsetbox import (OffsetImage, AnnotationBbox)
 from matplotlib.artist import Artist
@@ -17,12 +21,12 @@ from matplotlib.ticker import FormatStrFormatter
 from astroplan import FixedTarget
 
 def plot(targets=None, do_stars=True, do_asterisms=True,
-             do_constellations=False, do_moon=True, do_time_text=False,
-             times=None, observer=None, projection=ccrs.Mollweide(),
-             sky_culture="rey", do_xticks=False, do_yticks=True, mag_limit=8.5, 
-             path="./report_plots", star_marker="o", ax_color="xkcd:black", 
-             fig_color="xkcd:white", do_title=True, do_legend=True,
-             target_marker="*", do_target_colors=True):
+         do_constellations=False, do_moon=True, do_time_text=False,
+         times=None, observer=None, projection=ccrs.Mollweide(),
+         sky_culture="rey", do_xticks=False, do_yticks=True, mag_limit=8.5, 
+         path="./report_plots", star_marker="o", ax_color="xkcd:black", 
+         fig_color="xkcd:white", do_title=True, do_legend=True,
+         target_marker="*", do_target_colors=True):
     """
     Create a plot of the celestial sphere, with the targets of interest
     
@@ -122,7 +126,7 @@ def plot(targets=None, do_stars=True, do_asterisms=True,
     nonzodiac_color = '#77a9da'
     other_color = '#979330'
     
-    plt.rc('figure', dpi=250)
+    thing = plt.rc('figure', dpi=250)
     fig = plt.figure(figsize=(30, 15), facecolor=fig_color)
     ax = plt.axes(projection=ccrs.Mollweide())
     ax.set_facecolor(ax_color)
