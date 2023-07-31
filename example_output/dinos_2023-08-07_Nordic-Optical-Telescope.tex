@@ -19,7 +19,7 @@
 \usepackage{subcaption}
 \usepackage{graphicx,graphics}
 \graphicspath{{figures/}}
-\usepackage[skins,theorems,many]{tcolorbox}
+\usepackage[skins,theorems,many,breakable]{tcolorbox}
 \tcbset{highlight math style={enhanced,
   colframe=red,colback=white,arc=0pt,boxrule=1pt}}
 \usepackage[abs]{overpic}
@@ -33,6 +33,11 @@
 %\usepackage{pgfplotstable,filecontents}
 %\pgfplotsset{compat=1.9}% supress warning
 \usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{tabu}
+%\usepackage[skins,breakable]{tcolorbox}
+
+\setlength{\tabulinesep}{6pt}
 
 
 \long\gdef\@calc@trim< #1 >\@/< #2 >\@/< #3 >\@/< #4 >\@/< #5 >\@/< #6 >\@/< #7 >\@/< #8 >\@/< #9 >\@nihil{%
@@ -157,14 +162,14 @@
 
 \DIV[1]{section}*{Targets}\label{Ueff}
 \vspace{-0.2cm}\hrule
-\vspace{1cm}
+%\vspace{1cm}
 
 \begin{center}
-\begin{tabular}{l|c|c|c|c|c|c}%
+\begin{longtable}{l|c|c|c|c|c|c}%
     \bfseries Object & \bfseries RA & \bfseries DEC & \bfseries Type & \bfseries Spectral Class & \bfseries Distance (kpc) & \bfseries Apparant V mag  % specify table head
     \csvreader[head to column names]{targets.csv}{} % use head of csv as column names
     {\\\hline\Object & \RA & \DEC & \oType & \spType & \d & \V} % specify your coloumns here
-\end{tabular}
+\end{longtable}
 
 \end{center}
 
@@ -175,7 +180,7 @@
 \vspace{-0.2cm}
 
 \begin{center}
-    \includegraphics[width=1.0\textwidth]{./output/all_sky_map.jpg}
+    \includegraphics[width=1.0\textwidth]{example_output/all_sky_map.jpg}
 \end{center}
 
 \newpage
@@ -183,23 +188,43 @@
 \DIV[1]{section}*{Local-Sky Plot}\label{Ueff}
 \vspace{-0.2cm}
 
-\begin{minipage}{0.6\textwidth}
-    \includegraphics[width=9cm]{./output/local_sky.jpg}
-\vspace{-2cm}
+%\begin{minipage}{0.6\textwidth}
+%    \includegraphics[height=0.8\textheight]{example_output/local_sky.jpg}
+%\vspace{-2cm}
 
-\end{minipage}
-\begin{minipage}{0.3\textwidth}
+%\end{minipage}
+%\begin{minipage}{0.3\textwidth}
 
-\begin{center}
-\begin{tabular}{l|c|c}%
+%\begin{center}
+%\begin{longtable}{l|c|c}%
+%    \bfseries Object & \bfseries Rise Time & \bfseries Set Time   % specify table head
+%    \csvreader[head to column names]{targets.csv}{} % use head of csv as column names
+%    {\\\hline\Object & \rise & \set } % specify your coloumns here
+%\end{longtable}
+
+%\end{center}
+
+%\end{minipage}
+
+\begin{tcolorbox}[
+  blanker,
+  width=0.64\textwidth,enlarge left by=0.36\textwidth,
+  before skip=6pt,
+  breakable,
+  overlay unbroken and first={%
+    \node[inner sep=0pt,outer sep=0pt,text width=0.33\textwidth,
+      align=none,
+      below right]
+      at ([xshift=-0.36\textwidth]frame.north west)
+  {%
+    \includegraphics[height=0.8\textheight]{example_output/local_sky.jpg}
+  };}]
+\begin{longtable}{l|c|c}%
     \bfseries Object & \bfseries Rise Time & \bfseries Set Time   % specify table head
     \csvreader[head to column names]{targets.csv}{} % use head of csv as column names
     {\\\hline\Object & \rise & \set } % specify your coloumns here
-\end{tabular}
-
-\end{center}
-
-\end{minipage}
+\end{longtable}
+\end{tcolorbox}
 
 \newpage 
 
@@ -207,7 +232,7 @@
 \vspace{-0.2cm}
 
 \begin{center}
-    \includegraphics[width=0.75\textwidth]{./output/airmass.jpg}
+    \includegraphics[height=0.8\textheight]{example_output/airmass.jpg}
     \captionof*{figure}{\scriptsize Observing blocks are shown as the shaded regions. The numbers along each curve represent the angular distance between that target and the moon.}
 \end{center}
 
@@ -218,7 +243,7 @@
 %\vspace{0.2cm}
 
 \begin{minipage}{0.6\textwidth}
-    \includegraphics[width=9cm]{./output/finder_NGC6302.jpg}
+    \includegraphics[width=9cm]{example_output/finder_NGC6302.jpg}
 \vspace{-2cm}
 
 \end{minipage}
@@ -238,25 +263,25 @@
 
 \newpage
 
-\DIV[1]{section}*{Finder Chart 2023lgy}\label{Ueff}
+\DIV[1]{section}*{Finder Chart M102}\label{Ueff}
 %\vspace{0.2cm}
 
 \begin{minipage}{0.6\textwidth}
-    \includegraphics[width=9cm]{./output/finder_2023lgy.jpg}
+    \includegraphics[width=9cm]{example_output/finder_M102.jpg}
 \vspace{-2cm}
 
 \end{minipage}
 \begin{minipage}{0.3\textwidth}
 
-\textbf{Object RA}: 149d45m51s
+\textbf{Object RA}: 226d37m23.415s
 
-\textbf{Object DEC}: 33d28m39.1s
+\textbf{Object DEC}: 55d45m47.91s
 
-\textbf{Object Type}:  
+\textbf{Object Type}: Seyfert
 
-\textbf{Spectral Type}:  
+\textbf{Spectral Type}: 
 
-\textbf{Apparent V magnitude}:  
+\textbf{Apparent V magnitude}: 9.890$\pm$0.070
 
 \end{minipage}
 
@@ -266,7 +291,7 @@
 %\vspace{0.2cm}
 
 \begin{minipage}{0.6\textwidth}
-    \includegraphics[width=9cm]{./output/finder_Vega.jpg}
+    \includegraphics[width=9cm]{example_output/finder_Vega.jpg}
 \vspace{-2cm}
 
 \end{minipage}
