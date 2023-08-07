@@ -60,6 +60,7 @@ There are three main parts to the configuration file: `Night`, `Targets`, and `C
     "observer_lat":-17.884999999999998,
     "observer_long":28.7569444,
     "observer_elevation":2383,
+    "observer_timezone":"GMT"
     "obs_start":"2023-08-07 21:26:00",
     "obs_end":"2023-08-08 05:10:00",
     "block_start_times":[
