@@ -6,6 +6,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import matplotlib.dates as mdates
 
+import dino_tools as tools
+
 def plot(observer, times, targets, do_moon=True, do_moon_labels=True,
                  path="./report_plots"):
     # do airmass plot
@@ -65,7 +67,7 @@ def plot(observer, times, targets, do_moon=True, do_moon_labels=True,
             #continue
             alt = []
             for time in times['plot_window']:
-                target, marker = _setup_non_fixed_target(target_list[i], time,
+                target, marker = tools._setup_non_fixed_target(target_list[i], time,
                                                          observer.location)
                 alt.append(observer.altaz(time, target).alt)
             altitude = astropy.coordinates.Latitude(alt, unit=u.deg)

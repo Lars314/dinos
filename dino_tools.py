@@ -139,7 +139,7 @@ def setup_target_list(target_ids, location):
     return targets
 
 def setup_times(observer, obs_start, obs_end=None, block_start_times=None,
-                block_colors=None):
+                block_end_times=None, block_colors=None):
     """
     Sets up a times dictionary for the night which includes the observing window
     but also the twilight times, and information about observing blocks if any.
@@ -178,10 +178,13 @@ def setup_times(observer, obs_start, obs_end=None, block_start_times=None,
         for i in range(0, n_blocks):
             block = {}
             bs = Time(block_start_times[i])
-            try:
-                be = Time(block_start_times[i+1])
-            except:
-                be = end
+            if block_end_times != None:
+                be = Time(block_end_times[i])
+            else:
+                try:
+                    be = Time(block_start_times[i+1])
+                except:
+                    be = end
             #block['times'] = bs + (be - bs)*np.linspace(0, 1, 100)
             block['times'] = [bs, be]
             block['color'] = cmap[i]
@@ -190,25 +193,23 @@ def setup_times(observer, obs_start, obs_end=None, block_start_times=None,
     
     return times
 
-def setup_location(observer_name):
+def setup_location(observer_name, lat=None, long=None, elev=None, tz=None):
     """
     Setup the observer location based on selection of pre-defined names
     """
     me_irl = None
     
-    if observer_name == "Ladegårdskollegiet":
+    if observer_name == "Aarhus":
         location = EarthLocation.from_geodetic(10.18917*u.deg, 56.19694*u.deg,
                                                68*u.m)
-        me_irl = Observer(location=location, name=observer_name,
-                          timezone="Etc/GMT+1")
-    elif observer_name == "beach":
-        location = EarthLocation.from_geodetic(10.24806*u.deg, 56.19*u.deg,
-                                               1*u.m)
         me_irl = Observer(location=location, name=observer_name,
                           timezone="Etc/GMT+1")
     elif observer_name == "NOT" or observer_name == "Nordic Optical Telescope":
         location = EarthLocation.from_geodetic(-17.884999999999998*u.deg,
                                                28.7569444*u.deg, 2383*u.m)
         me_irl = Observer(location=location, name=observer_name, timezone="GMT")
+    else: # custom observer
+        location = EarthLocation.from_geodetic(lat*u.deg, long*u.deg, elev*u.m)
+        me_irl = Observer(location=location, name=observer_name, timezone=tz)
         
     return me_irl

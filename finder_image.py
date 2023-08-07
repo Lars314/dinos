@@ -4,7 +4,7 @@ import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astropy.wcs import WCS
 
-def plot(this_target, survey='DSS', fov_radius=3.2*u.arcmin,
+def plot(this_target, survey='DSS', fov_radius=3.2,
          log=False, ax=None, grid=False, reticle=True,
          style_kwargs=None, reticle_style_kwargs=None,
          path="./report_plots"):
@@ -69,15 +69,40 @@ def plot(this_target, survey='DSS', fov_radius=3.2*u.arcmin,
     Dependencies:
         In addition to Matplotlib, this function makes use of astroquery.
     """
+    fov_radius = fov_radius*u.arcmin
     target = this_target['target']
-    coord = target if not hasattr(target, 'coord') else target.coord
-    position = coord.icrs
-    coordinates = 'icrs'
-    target_name = None if isinstance(target, SkyCoord) else target.name
-
-    hdu = SkyView.get_images(position=position, coordinates=coordinates,
+    try:
+        coord = target if not hasattr(target, 'coord') else target.coord
+        position = coord.icrs
+        coordinates = 'icrs'
+        target_name = None if isinstance(target, SkyCoord) else target.name
+        hdu = SkyView.get_images(position=position, coordinates=coordinates,
                              survey=survey, radius=fov_radius, grid=grid)[0][0]
-    wcs = WCS(hdu.header)
+        wcs = WCS(hdu.header)
+    except:
+        print("Finding chart failed, target has no coord object. Maybe the target is a solar system object?")
+        target_name = this_target['name']
+        if ax is None:
+            ax = plt.gcf().add_subplot()
+        if style_kwargs is None:
+            style_kwargs = {}
+        style_kwargs = dict(style_kwargs)
+        style_kwargs.setdefault('cmap', 'Greys')
+        style_kwargs.setdefault('origin', 'lower')
+        # Labels, title, grid
+        ax.set(xlabel='RA', ylabel='DEC')
+        if target_name is not None:
+            ax.set_title(target_name)
+        ax.grid(grid)
+
+        # Redraw the figure for interactive sessions.
+        ax.figure.canvas.draw()
+        plt.savefig('{0}/finder_{1}.jpg'.format(path, target_name.replace(" ", "").replace(".", "_")),
+                    edgecolor='none', bbox_inches='tight')
+        plt.close()
+        return ax, None
+
+    
 
     # Set up axes & plot styles if needed.
     if ax is None:
@@ -121,6 +146,7 @@ def plot(this_target, survey='DSS', fov_radius=3.2*u.arcmin,
 
     # Redraw the figure for interactive sessions.
     ax.figure.canvas.draw()
-    plt.savefig('{0}/finder_{1}.jpg'.format(path, target_name), edgecolor='none', bbox_inches='tight')
+    plt.savefig('{0}/finder_{1}.jpg'.format(path, target_name.replace(" ", "").replace(".", "_")),
+                edgecolor='none', bbox_inches='tight')
     plt.close()
     return ax, hdu

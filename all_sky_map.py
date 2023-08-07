@@ -3,6 +3,9 @@ import astropy
 import astropy.units as u
 from astropy.coordinates import SkyCoord
 from astropy.time import Time
+from astropy.coordinates import AltAz
+from astropy.coordinates import solar_system_ephemeris
+from astropy.coordinates import get_body
 
 import pandas as pd
 from seaborn import desaturate
@@ -20,13 +23,16 @@ import matplotlib.dates as mdates
 from matplotlib.ticker import FormatStrFormatter
 from astroplan import FixedTarget
 
+import dino_tools as tools
+
 def plot(targets=None, do_stars=True, do_asterisms=True,
          do_constellations=False, do_moon=True, do_time_text=False,
          times=None, observer=None, projection=ccrs.Mollweide(),
          sky_culture="rey", do_xticks=False, do_yticks=True, mag_limit=8.5, 
          path="./report_plots", star_marker="o", ax_color="xkcd:black", 
          fig_color="xkcd:white", do_title=True, do_legend=True,
-         target_marker="*", do_target_colors=True):
+         target_marker="*", do_target_colors=True, move_moon=False,
+         do_obs_lines=False):
     """
     Create a plot of the celestial sphere, with the targets of interest
     
@@ -218,7 +224,7 @@ def plot(targets=None, do_stars=True, do_asterisms=True,
                     if observer is None:
                         warnings.warn("You have a non-fixed target, but did not specify an observing location!")
                     # "tat" stands for "target at time"
-                    tat, marker = _setup_non_fixed_target(target_list[i], time,
+                    tat, marker = tools._setup_non_fixed_target(target_list[i], time,
                                                           observer.location)
                     ax.plot(tat.coord.ra, tat.coord.dec,
                             transform=ccrs.Geodetic(), marker=marker,
@@ -238,24 +244,44 @@ def plot(targets=None, do_stars=True, do_asterisms=True,
         imagebox = OffsetImage(moon_cartoon, zoom=0.15)
         imagebox.image.axes = ax
         
-        for time in time_list:
+        if move_moon:
+            for time in time_list:
+                # get the moon's location
+                moon = FixedTarget(name="Moon",
+                                   coord=astropy.coordinates.get_moon(time))
+
+                # place the moon image
+                transform = ccrs.Geodetic()._as_mpl_transform(ax)
+                ab = AnnotationBbox(imagebox,
+                                    (moon.coord.ra.value, moon.coord.dec.value),
+                                    frameon=False, xycoords=transform)
+                ax.add_artist(ab)
+
+                if do_time_text:
+                    ax.text(x=(moon.coord.ra-4*u.deg).value,
+                            y=moon.coord.dec.value,
+                            s=time.strftime("%m-%d %H:%M:%S"),
+                            transform=ccrs.Geodetic(), color="xkcd:white")
+        else:
+            time = time_list[0]
             # get the moon's location
             moon = FixedTarget(name="Moon",
                                coord=astropy.coordinates.get_moon(time))
-            
+
             # place the moon image
             transform = ccrs.Geodetic()._as_mpl_transform(ax)
             ab = AnnotationBbox(imagebox,
                                 (moon.coord.ra.value, moon.coord.dec.value),
                                 frameon=False, xycoords=transform)
             ax.add_artist(ab)
-            
+
             if do_time_text:
-                ax.text(x=(moon.coord.ra-4*u.deg).value, y=moon.coord.dec.value,
+                ax.text(x=(moon.coord.ra-4*u.deg).value,
+                        y=moon.coord.dec.value,
                         s=time.strftime("%m-%d %H:%M:%S"),
                         transform=ccrs.Geodetic(), color="xkcd:white")
         
-    if observer != None:
+    if observer != None and do_obs_lines == True:
         az_range = np.linspace(0, 360, 360)
         ras = []
         decs = []

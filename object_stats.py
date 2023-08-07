@@ -19,11 +19,19 @@ def simbad_query(object_name):
     
     data = {"oType":result_table['OTYPE'][0],
             "spType":result_table['SP_TYPE'][0],
-            #"SkyCoord":coord,
-            "RA":str(coord.ra),
-            "DEC":str(coord.dec),
+            "RA":" ",
+            "DEC":" ",
             "d":" ",
             "V":" "}
+    # format RA and DEC to hh:mm:ss dd:mm:ss
+    char_remov = ['h', 'm', 'd']
+    coord_string = coord.to_string('hmsdms')
+    for char in char_remov:
+        # replace() "returns" an altered string
+        coord_string = coord_string.replace(char, ":")
+    coord_string = coord_string.replace("s", "")
+    data['RA'] = coord_string.split()[0]
+    data['DEC'] = coord_string.split()[1]
     
     if result_table['Distance_distance'][0]:
         d = result_table['Distance_distance'][0]

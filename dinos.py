@@ -81,7 +81,7 @@ temp_finder = """
 %\\vspace{{0.2cm}}
 
 \\begin{{minipage}}{{0.6\\textwidth}}
-    \includegraphics[width=9cm]{{{1}/finder_{0}.jpg}}
+    \includegraphics[width=9cm]{{{1}/finder_{7}.jpg}}
 \\vspace{{-2cm}}
 
 \end{{minipage}}
@@ -153,15 +153,31 @@ if __name__ == "__main__":
     
     # define observer
     print("defining observer...")
-    dino_loc = tools.setup_location(night_data['telescope_name'])
+    dino_loc = tools.setup_location(night_data['telescope_name'],
+                                    night_data['observer_lat'],
+                                    night_data['observer_long'],
+                                    night_data['observer_elevation'],
+                                    night_data['observer_timezone'])
     print("setting up times...")
+    try:
+        bst = night_data['block_start_times']
+    except:
+        bst = None
+    try:
+        bet = night_data['block_end_times']
+    except:
+        bet = None        
+    try:
+        bc = night_data['block_colors']
+    except:
+        bc = None
+    
     times = tools.setup_times(dino_loc,
                               night_data['obs_start'],
                               night_data['obs_end'],
-                              night_data['obs_windows'],
-                              block_colors=["xkcd:red",
-                                            "xkcd:blue",
-                                            "xkcd:orange"])
+                              block_start_times=bst,
+                              block_end_times=bet,
+                              block_colors=bc)
     
     if args['verbose']:
         print("----------------------------------")
@@ -211,12 +227,20 @@ if __name__ == "__main__":
         try:
             data = object_stats.simbad_query(target['name'])
         except:
-            data = {"oType":" ",
-                    "spType":" ",
-                    "RA":str(target['target'].ra),
-                    "DEC":str(target['target'].dec),
-                    "d":" ",
-                    "V":" "}
+            try:
+                data = {"oType":" ",
+                        "spType":" ",
+                        "RA":str(target['target'].ra),
+                        "DEC":str(target['target'].dec),
+                        "d":" ",
+                        "V":" "}
+            except:
+                data = {"oType":"non-fixed",
+                        "spType":" ",
+                        "RA":"variable",
+                        "DEC":"variable",
+                        "d":" ",
+                        "V":" "}
         
         data['Object'] = target['name']
         
@@ -226,6 +250,9 @@ if __name__ == "__main__":
             data['rise'] = dino_loc.target_rise_time(night_data['obs_start'],
                                                      target['target'],
                                                      which="nearest").iso.split()[1][:8]
+            print(dino_loc.target_rise_time(night_data['obs_start'],
+                                                     target['target'],
+                                                     which="nearest").scale)
         except:
             data['rise'] = "NA"
         
@@ -257,7 +284,8 @@ if __name__ == "__main__":
     # create all-sky map
     print("creating plots...")
     print("all sky map")
-    all_sky_map.plot(targets, path=args['output'], **config_data['all_sky_map'])
+    all_sky_map.plot(targets, times=times, path=args['output'],
+                     observer=dino_loc, **config_data['all_sky_map'])
     
     # create local-sky map
     print("local sky map")
@@ -283,7 +311,8 @@ if __name__ == "__main__":
                                             target['DEC'],
                                             target['oType'],
                                             target['spType'],
-                                            target['V'])
+                                            target['V'],
+                                            target['name'].replace(" ", "").replace(".", "_"))
     
     # create the night page
     print("formatting document...")

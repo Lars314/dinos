@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import dino_tools as tools
 from astroplan import Observer
 from astroplan import FixedTarget
+import astropy
 
 def plot(observer, times, targets, do_moon=False, do_grid=True,
              az_label_offset=0.0*u.deg, path="./report_plots"):
