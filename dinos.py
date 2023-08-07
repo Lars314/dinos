@@ -360,7 +360,9 @@ if __name__ == "__main__":
         file.write(file_data)
 
     # run report script
-    #os.system("pdflatex -jobname dinos_report -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
-    os.system("pdflatex -jobname dinos_report -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
+    if args['verbose']:
+        os.system("pdflatex -jobname dinos_report -output-directory {0} {1}".format(args['output'], script_name))
+    else:
+        os.system("pdflatex -jobname dinos_report -output-directory {0} --interaction=batchmode {1}".format(args['output'], script_name))
     
     print("Done!")

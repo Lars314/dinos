@@ -238,4 +238,4 @@ DINOS requires python 3.10 or higher, as well as the following python packages:
 -`datetime`
 
 
-Additionally, DINOS requires pdflatex. If you are using linux, you can install it by following [these](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d) instructions.
+Additionally, DINOS requires pdflatex. If you are using linux, you can install it by following [these](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d) instructions. You will also need to run `sudo apt-get install texlive-publishers`
