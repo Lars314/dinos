@@ -1,22 +1,35 @@
 {
     "Night":{
-        "telescope_name":"Aarhus",
+        "telescope_name":"Nordic Optical Telescope",
         "observer_lat":-17.884999999999998,
         "observer_long":28.7569444,
         "observer_elevation":2383,
-        "obs_start":"2023-08-30 20:58:24",
-        "obs_end":"2023-08-31 05:27:23",
+        "observer_timezone":"GMT",
+        "obs_start":"2023-08-07 21:26:00",
+        "obs_end":"2023-08-08 05:10:00",
         "block_start_times":[
-            "2023-08-30 20:58:24"
+            "2023-08-07 21:30:00",
+            "2023-08-07 23:25:00",
+            "2023-08-08 01:20:00",
+            "2023-08-08 03:15:00"
         ],
         "block_end_times":[
-            "2023-08-31 05:27:23"            
+            "2023-08-07 23:25:00",
+            "2023-08-08 01:20:00",
+            "2023-08-08 03:15:00",
+            "2023-08-08 05:10:00"            
         ],
         "block_colors":[
-            "xkcd:grey"
+            "xkcd:green",
+            "xkcd:blue",
+            "xkcd:red",
+            "xkcd:orange"
         ]
     },
     "Targets":[
+        "NGC6302",
+        "M102",
+        "Vega"
     ],
     "Config":{
         "PDF":{
@@ -27,6 +40,7 @@
             "do_asterisms":true,
             "do_constellations":false,
             "do_moon":true,
+            "move_moon":false,
             "do_time_text":false,
             "do_xticks":false,
             "do_yticks":true,
@@ -39,7 +53,7 @@
             "sky_culture":"rey"
         },
         "local_sky":{
-            "do_moon":true,
+            "do_moon":false,
             "do_grid":true
         },
         "airmass":{

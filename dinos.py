@@ -250,9 +250,9 @@ if __name__ == "__main__":
             data['rise'] = dino_loc.target_rise_time(night_data['obs_start'],
                                                      target['target'],
                                                      which="nearest").iso.split()[1][:8]
-            print(dino_loc.target_rise_time(night_data['obs_start'],
-                                                     target['target'],
-                                                     which="nearest").scale)
+            #print(dino_loc.target_rise_time(night_data['obs_start'],
+            #                                         target['target'],
+            #                                         which="nearest").scale)
         except:
             data['rise'] = "NA"
         
