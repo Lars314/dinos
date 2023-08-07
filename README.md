@@ -18,10 +18,6 @@ Steps for DINOS-ing:
 If all goes well you should see something like the following:
 
 ```
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex)
- restricted \write18 enabled.
-entering extended mode
-
   _____ _____ _   _  ____   _____        __ 
  |  __ \_   _| \ | |/ __ \ / ____|      /_ |
  | |  | || | |  \| | |  | | (___   __   _| |
@@ -43,6 +39,9 @@ Finder image NGC6302
 Finder image M102
 Finder image Vega
 formatting document...
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
 Done!
 ```
 
