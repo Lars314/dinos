@@ -220,3 +220,22 @@ The next subsection is `finder_images`. It configures the finder images created 
 - `log` takes the natural logarithm of the finder chart image. This can be useful if the field has both faint and bright objects, and you want to be able to see the faint ones. It should be a boolean value, true or false.
 
 - `reticle` enables or disables plotting a reticle directly around your target. The reticle will be in the color of your target as defined automatically for the report PDF. It is highly recommended you keep this on, as that is the entire point of having a finding chart. But maybe if you have an extended object you don't want it for the sake of clutter. You do you. It should be a boolean value, true or false.
+
+
+# Requirements
+
+DINOS requires python 3.10 or higher, as well as the following python packages:
+
+-`cartopy`
+-`astropy`
+-`astroplan`
+-`astroquery`
+-`pandas`
+-`numpy`
+-`matplotlib`
+-`seaborn`
+-`shutil`
+-`datetime`
+
+
+Additionally, DINOS requires pdflatex. If you are using linux, you can install it by following [these](https://gist.github.com/rain1024/98dd5e2c6c8c28f9ea9d) instructions.
